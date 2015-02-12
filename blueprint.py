@@ -27,7 +27,16 @@ ISSUES = [
     ("Publish the project to production", "Are you ready to ship?"),
 ]
 
-EXCLUDES = ['node_modules', 'app', 'styles', 'lib/jquery/*', 'lib/bootstrap/*', '*.md', '*.json']
+EXCLUDES = [
+    'node_modules',
+    'app',
+    'styles',
+    'lib/jquery/*',
+    'lib/headjs/*',
+    'lib/revealjs-fullscreen-img/*',
+    '*.md',
+    '*.json'
+]
 
 blueprint = Blueprint('base', __name__)
 

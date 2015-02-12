@@ -10,6 +10,7 @@
   {% block library_css %}
   {{ CSS.push('lib/revealjs/css/reveal.css') }}
   {{ CSS.push('lib/revealjs/css/theme/{0}.css'.format(reveal_theme)) }}
+  {{ CSS.push('lib/revealjs-fullscreen-img/fullscreen-img.css') }}
   {{ CSS.push('styles/base.css') }}
   {{ CSS.render('css/style.min.css') }}
   {% endblock library_css %}
@@ -37,7 +38,7 @@
 <div class="reveal">
   <div class="slides">
     {% for slide in slides %}
-    <section id="{{ slide.id }}">
+    <section id="{% if not slide.id %}_{{ loop.index }}{% else %}{{ slide.id }}{% endif %}"{% if slide.image %} fullscreen-img="{{ slide.image }}"{% endif %}>
       <h1>{{ slide.text }}</h1>
     </section>
     {% endfor %}
@@ -52,6 +53,7 @@ window.SLIDESHOW_THEME = '{{ reveal_theme }}';
 </script>
 
 {{ JS.push('lib/jquery/dist/jquery.js') }}
+{{ JS.push('lib/headjs/dist/1.0.0/head.js') }}
 {{ JS.push('lib/revealjs/js/reveal.js') }}
 {{ JS.push('app/app.js') }}
 {{ JS.render('js/app.min.js') }}
