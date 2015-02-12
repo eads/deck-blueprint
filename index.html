@@ -1,2 +1,16 @@
 {% extends "_base.html" %}
 
+{% block content %}
+<div class="reveal">
+  <div class="slides">
+    {% for slide in slides %}
+    <section id="{% if not slide.id %}_{{ loop.index }}{% else %}{{ slide.id }}{% endif %}"{% if slide.image %} data-background-image="{{ slide.image }}"{% endif %}{% if slide.background_size %} data-background-size="{{ slide.background_size }}"{% endif %}{% if slide.extra_class %} class="{{ slide.extra_class }}"{% endif %}>
+      {% if slide.text %}
+      <h1>{{ slide.text }}</h1>
+      {% endif %}
+    </section>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+

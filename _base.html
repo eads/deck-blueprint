@@ -35,15 +35,6 @@
 <body {% block bodyattrs %}class="page-{{ PATH[:-5] }}"{% endblock bodyattrs %}>
 
 {% block content %}
-<div class="reveal">
-  <div class="slides">
-    {% for slide in slides %}
-    <section id="{% if not slide.id %}_{{ loop.index }}{% else %}{{ slide.id }}{% endif %}"{% if slide.image %} fullscreen-img="{{ slide.image }}"{% endif %}>
-      <h1>{{ slide.text }}</h1>
-    </section>
-    {% endfor %}
-  </div>
-</div>
 {% endblock content %}
 
 {% block library_scripts %}
