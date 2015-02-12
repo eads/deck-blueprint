@@ -11,12 +11,15 @@ import re
 import requests
 
 from clint.textui import colored, puts
-from flask import Blueprint
+from cssmin import cssmin
+from flask import g, Blueprint
 from jinja2 import evalcontextfilter, contextfunction, Template, Markup
+from slimit import minify
 from tarbell.hooks import register_hook
 from time import time
 
 NAME = "Basic Bootstrap 3 template"
+
 ISSUES = [
     ("Edit index.html", "Create new content in `index.html` by replacing the `{% block content %} ... {% endblock %}'"),
     ("Add Google analytics ID to spreadsheet", "Add your tracking code."),
@@ -24,9 +27,93 @@ ISSUES = [
     ("Publish the project to production", "Are you ready to ship?"),
 ]
 
-EXCLUDES = ['node_modules', '*.md', '*.json']
+EXCLUDES = ['node_modules', 'app', 'styles', 'lib/jquery/*', 'lib/bootstrap/*', '*.md', '*.json']
 
 blueprint = Blueprint('base', __name__)
+
+class Includer(object):
+    """
+    Base class for Javascript and CSS psuedo-template-tags.
+    See `make_context` for an explanation of `asset_depth`.
+    """
+    def __init__(self):
+        self.includes = []
+        self.tag_string = None
+
+    def push(self, path):
+        self.includes.append(path)
+
+        return ''
+
+    def _compress(self):
+        raise NotImplementedError()
+
+    def _get_path(self, path):
+        blueprint_root = os.path.dirname(os.path.realpath(__file__))
+
+        project_path = os.path.join(blueprint_root, '../', path)
+        if os.path.isfile(project_path):
+            return project_path
+
+        blueprint_path = os.path.join(blueprint_root, path)
+        if os.path.isfile(blueprint_path):
+            return blueprint_path
+
+        return '\n'.join(output)
+
+    def render(self, path):
+        # the g object only has current site attribute in the preview server
+        if not hasattr(g, 'current_site'):
+            with codecs.open(path, 'w', encoding='utf-8') as f:
+                f.write(self._compress())
+            response = self.tag_string.format(path)
+        else:
+            response = '\n'.join([
+                self.tag_string.format(src) for src in self.includes
+            ])
+
+        markup = Markup(response)
+
+        del self.includes[:]
+
+        return markup
+
+
+class JavascriptIncluder(Includer):
+    """
+    Psuedo-template tag that handles collecting Javascript and serving appropriate clean or compressed versions.
+    """
+    def __init__(self, *args, **kwargs):
+        Includer.__init__(self, *args, **kwargs)
+        self.tag_string = '<script type="text/javascript" src="{0}"></script>'
+
+    def _compress(self):
+        output = []
+
+        for src in self.includes:
+            with codecs.open(self._get_path(src), encoding='utf-8') as f:
+                output.append(minify(f.read()))
+
+        return '\n'.join(output)
+
+
+class CSSIncluder(Includer):
+    """
+    Psuedo-template tag that handles collecting CSS and serving appropriate clean or compressed versions.
+    """
+    def __init__(self, *args, **kwargs):
+        Includer.__init__(self, *args, **kwargs)
+        self.tag_string = '<link rel="stylesheet" type="text/css" href="{0}" />'
+
+    def _compress(self):
+        output = []
+
+        for src in self.includes:
+            with codecs.open(self._get_path(src), encoding='utf-8') as f:
+                output.append(cssmin(f.read()))
+
+        return '\n'.join(output)
+
 
 @register_hook('newproject')
 def create_repo(site, git):
@@ -51,38 +138,14 @@ def create_repo(site, git):
         resp = requests.post('https://api.github.com/repos/{0}/{1}/issues'.format(user, name), auth=(user, password), headers=headers, data=json.dumps(data))
 
 
-@contextfunction
-def read_file(context, path, absolute=False, encoding='utf-8'):
-    """
-    Read the file at `path`. If `absolute` is True, use absolute path,
-    otherwise path is assumed to be relative to Tarbell template root dir.
-    """
-    if not absolute:
-        path = os.path.join(os.path.dirname(__file__), '..', path)
-
-    try:
-        return codecs.open(path, 'r', encoding).read()
-    except IOError:
-        return None
-
-@contextfunction
-def render_file(context, path, absolute=False):
-    """
-    Render a file with the current context
-    """
-    file_contents = read_file(context, path, absolute)
-    template = Template(file_contents)
-    return template.render(**context)
-
-
 @blueprint.app_context_processor
 def context_processor():
     """
     Add helper functions to context for all projects.
     """
     return {
-        'read_file': read_file,
-        'render_file': render_file,
+        'JS': JavascriptIncluder(),
+        'CSS': CSSIncluder(),
     }
 
 
