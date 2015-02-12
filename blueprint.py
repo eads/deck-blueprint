@@ -24,6 +24,7 @@ ISSUES = [
     ("Publish the project to production", "Are you ready to ship?"),
 ]
 
+EXCLUDES = ['node_modules', '*.md', '*.json']
 
 blueprint = Blueprint('base', __name__)
 
