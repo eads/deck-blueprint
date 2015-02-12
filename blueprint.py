@@ -33,7 +33,6 @@ EXCLUDES = [
     'styles',
     'lib/jquery/*',
     'lib/headjs/*',
-    'lib/revealjs-fullscreen-img/*',
     '*.md',
     '*.json'
 ]

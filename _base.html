@@ -49,7 +49,8 @@
 {% block library_scripts %}
 
 <script>
-window.SLIDESHOW_THEME = '{{ reveal_theme }}';
+var SLIDESHOW_THEME = '{{ reveal_theme }}';
+var TARBELL_PREVIEW_SERVER = {% if PREVIEW_SERVER %}true{% else %}false{% endif %};
 </script>
 
 {{ JS.push('lib/jquery/dist/jquery.js') }}
