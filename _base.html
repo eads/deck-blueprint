@@ -8,9 +8,7 @@
   {% endblock %}
 
   {% block library_css %}
-  {{ CSS.push('lib/revealjs/css/reveal.css') }}
-  {{ CSS.push('lib/revealjs/css/theme/{0}.css'.format(reveal_theme)) }}
-  {{ CSS.push('lib/revealjs-fullscreen-img/fullscreen-img.css') }}
+  {{ CSS.push('lib/fullpage/jquery.fullPage.css') }}
   {{ CSS.push('styles/base.css') }}
   {{ CSS.render('css/style.min.css') }}
   {% endblock library_css %}
@@ -40,13 +38,11 @@
 {% block library_scripts %}
 
 <script>
-var SLIDESHOW_THEME = '{{ reveal_theme }}';
 var TARBELL_PREVIEW_SERVER = {% if PREVIEW_SERVER %}true{% else %}false{% endif %};
 </script>
 
 {{ JS.push('lib/jquery/dist/jquery.js') }}
-{{ JS.push('lib/headjs/dist/1.0.0/head.js') }}
-{{ JS.push('lib/revealjs/js/reveal.js') }}
+{{ JS.push('lib/fullpage/jquery.fullPage.js') }}
 {{ JS.push('app/app.js') }}
 {{ JS.render('js/app.min.js') }}
 
