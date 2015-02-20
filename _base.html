@@ -8,6 +8,9 @@
   {% endblock %}
 
   {% block library_css %}
+  <style>
+    @import url(https://fonts.googleapis.com/css?family=Montserrat:700);
+  </style>
   {{ CSS.push('lib/fullpage/jquery.fullPage.css') }}
   {{ CSS.push('styles/base.css') }}
   {{ CSS.render('css/style.min.css') }}

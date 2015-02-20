@@ -32,12 +32,9 @@ var loadImage = function($slide) {
       $slide.css('background-image', 'url(' + background_image + ')');
     }
 
-    //var background_size = $slide.data('background-size');
-    if ($(window).height() > $(window).width()) {
-      $slide.css('background-size', 'cover');
-    } else {
-      $slide.css('background-size', 'contain');
-    }
+    var background_size = $slide.data('background-size');
+    if (background_size)
+      $slide.css('background-size', background_size);
 
 };
 
