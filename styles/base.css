@@ -1,93 +1,14 @@
-body {
-  background: #000000;
-  background: -moz-radial-gradient(center, circle cover, #424242 0%, #000000 100%);
-  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #424242), color-stop(100%, #000000));
-  background: -webkit-radial-gradient(center, circle cover, #424242 0%, #000000 100%);
-  background: -o-radial-gradient(center, circle cover, #424242 0%, #000000 100%);
-  background: -ms-radial-gradient(center, circle cover, #424242 0%, #000000 100%);
-  background: radial-gradient(center, circle cover, #424242 0%, #000000 100%);
-  background-color: #000000;
-  font-family: "Montserrat", Helvetica Neue, Helvetica, sans-serif;
-  color: #f3f3f3;
+.deck-container {
+    -webkit-transition: opacity 1.5s;
+    transition: opacity 1.5s;
+}
+.deck-container.hidden {
+    opacity: 0;
 }
 
 .slide {
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: contain;
-  opacity: 0;
-  transition: opacity 3s;
-  position: relative;
+    visibility: hidden;
 }
-
-.slide.active {
-  opacity: 1;
-}
-
-.slide.positioned .fp-tableCell {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-}
-
-.slide .slide-inner {
-  width: 60%;
-  margin: 0 auto;
-}
-
-.slide.positioned .slide-inner {
-  width: auto;
-  position: absolute;
-}
-
-.slide h1 {
-  text-align: center;
-  font-size: 7vmax;
-  text-transform: uppercase;
-  text-shadow: 1px 1px 8px #000;
-  margin: .5vmax 0;
-}
-.slide h2 {
-  text-align: center;
-  font-size: 3.5vmax;
-  margin: .5vmax 0;
-}
-
-.slide.background .slide-inner {
-  /*background-color: #000;*/
-  background-color: rgba(0,0,0,0.7);
-  padding: .5vmax 1.5vmax;
-}
-
-.slide.background h1 {
-  font-size: 4.25vmax;
-}
-.slide.background h2 {
-  font-size: 2.2vmax;
-}
-
-.slide p {
-  text-align: center;
-  font-size: 2.3vmax;
-  text-shadow: 0 0 4px #000;
-}
-
-.slide a {
-  color: #add8e6;
-  text-decoration: none;
-}
-
-.slide.background.bottom .slide-inner {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding-bottom: 2vmax;
-}
-
-.slide.center-bg {
-  background-position: center center;
+.slide.deck-current {
+    visibility: visible;
 }

@@ -8,17 +8,16 @@
   {% endblock %}
 
   {% block library_css %}
-  <style>
-    @import url(https://fonts.googleapis.com/css?family=Montserrat:700);
-  </style>
-  {{ CSS.push('lib/fullpage/jquery.fullPage.css') }}
+  {{ CSS.push('lib/deck.js/core/deck.core.css') }}
+  {{ CSS.push('lib/deck.js/themes/style/swiss.css') }}
+  {{ CSS.push('lib/deck.js/themes/transition/fade.css') }}
   {{ CSS.push('styles/base.css') }}
   {{ CSS.render('css/style.min.css') }}
   {% endblock library_css %}
 
   {% block css %}{% endblock %}
 
-  {% block opengraph %} 
+  {% block opengraph %}
   <meta property="og:url" content="http://{{ ROOT_URL }}/{% if PATH != 'index.html' %}{{ PATH }}{% endif %}" />
   <meta property="og:title" content="{{ title }}" />
   <meta property="og:type" content="website" />
@@ -40,12 +39,10 @@
 
 {% block library_scripts %}
 
-<script>
-var TARBELL_PREVIEW_SERVER = {% if PREVIEW_SERVER %}true{% else %}false{% endif %};
-</script>
-
+{{ JS.push('lib/deck.js/modernizr.custom.js') }}
 {{ JS.push('lib/jquery/dist/jquery.js') }}
-{{ JS.push('lib/fullpage/jquery.fullPage.js') }}
+{{ JS.push('lib/deck.js/core/deck.core.js') }}
+{{ JS.push('lib/deck.js/extensions/navigation/deck.navigation.js') }}
 {{ JS.push('app/app.js') }}
 {{ JS.render('js/app.min.js') }}
 
