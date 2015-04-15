@@ -22,12 +22,9 @@ var loadImage = function($slide) {
     * Lazy load images.
     */
     var background_image = $slide.data('background-image');
-    if ($slide.css('background-image') == 'none' && background_image)
+    if (background_image) {
         $slide.css('background-image', 'url(' + background_image + ')');
-
-    var background_size = $slide.data('background-size');
-    if (background_size)
-        $slide.css('background-size', background_size);
+    }
 
 };
 
@@ -38,5 +35,6 @@ $(document).ready(function() {
   $(this).bind('deck.change', onSlideChange);
 
   $.deck($slides);
+  loadImage($slides.eq(0));
   $container.removeClass('hidden');
 });

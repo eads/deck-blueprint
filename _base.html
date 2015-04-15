@@ -8,8 +8,10 @@
   {% endblock %}
 
   {% block library_css %}
+  <script src="//use.typekit.net/vuh7ozn.js"></script>
+  <script>try{Typekit.load();}catch(e){}</script>
+  {{ CSS.push('lib/bootstrap/dist/css/bootstrap.css') }}
   {{ CSS.push('lib/deck.js/core/deck.core.css') }}
-  {{ CSS.push('lib/deck.js/themes/style/swiss.css') }}
   {{ CSS.push('lib/deck.js/themes/transition/fade.css') }}
   {{ CSS.push('styles/base.css') }}
   {{ CSS.render('css/style.min.css') }}
@@ -38,14 +40,11 @@
 {% endblock content %}
 
 {% block library_scripts %}
-
 {{ JS.push('lib/deck.js/modernizr.custom.js') }}
 {{ JS.push('lib/jquery/dist/jquery.js') }}
 {{ JS.push('lib/deck.js/core/deck.core.js') }}
-{{ JS.push('lib/deck.js/extensions/navigation/deck.navigation.js') }}
 {{ JS.push('app/app.js') }}
 {{ JS.render('js/app.min.js') }}
-
 {% endblock library_scripts %}
 
 {% block scripts %}{% endblock %}
