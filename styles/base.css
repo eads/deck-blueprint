@@ -40,10 +40,58 @@ body {
 }
 
 h1 {
-    font-size: 7rem;
+    font-size: 8rem;
     font-weight: 700;
+}
+h2 {
+    font-size: 7rem;
+}
+h3 {
+    font-size: 5.5rem;
+}
+h4 {
+    font-size: 4.5rem;
+}
+h5 {
+    font-size: 3.5rem;
+}
+h6 {
+    font-size: 2.5rem;
 }
 
 strong {
     color: #ff4500;
+}
+
+pre {
+    font-size: 2.5rem;
+    background: none;
+    border: none;
+    padding: 0;
+    color: #00ac00;
+}
+
+.lg pre {
+  font-size: 6rem;
+}
+
+.sm pre {
+  font-size: 1.9rem;
+}
+
+.center {
+  text-align: center;
+}
+
+.pyramid h1, .pyramid h2, .pyramid h3, .pyramid h4, .pyramid h5, .pyramid h6, .pyramid p {
+    font-weight: 600;
+    line-height: 1.2;
+    margin: 0 0 1rem 0;
+    white-space: nowrap;
+}
+.pyramid h2 {
+  font-size: 6rem;
+}
+.pyramid p {
+  font-size: 2rem;
 }

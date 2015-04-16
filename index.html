@@ -1,15 +1,4 @@
 {% extends "_base.html" %}
 
 {% block content %}
-<div class="deck-container hidden">
-    {% for slide in slides %}
-    <section class="slide" {% if slide.background_image %}data-background-image="{{ slide.background_image }}"{% endif %}>
-        {% if slide.file %}
-        {{ render_file('slides/{0}.md'.format(silde.content))|markdown }}
-        {% else %}
-        {% slide.content|safe %}
-        {% endif %}
-    </section>
-    {% endfor %}
-</div>
 {% endblock %}
