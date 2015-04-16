@@ -95,3 +95,16 @@ pre {
 .pyramid p {
   font-size: 2rem;
 }
+
+.attribution {
+    color: #fff;
+    background-color: #000;
+    padding: 10px;
+    font-size: 1.5rem;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+.attribution a {
+    color: #ff4500;
+}
