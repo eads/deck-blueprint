@@ -79,6 +79,12 @@ pre {
   font-size: 1.9rem;
 }
 
+.tiny p {
+    font-family: "Georgia", serif;
+    font-size: 1.8rem;
+    line-height: 1.5;
+}
+
 .center {
   text-align: center;
 }
