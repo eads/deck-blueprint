@@ -13,7 +13,7 @@ from slimit import minify
 from tarbell.hooks import register_hook
 from tarbell.utils import ensure_directory
 
-NAME = "DeckJS Slideshow"
+NAME = "deck.js slideshow"
 
 ISSUES = [
     ("Edit index.html", "Create new content in `index.html` by replacing the `{% block content %} ... {% endblock %}'"),
