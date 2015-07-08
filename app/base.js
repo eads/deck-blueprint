@@ -1,43 +1,52 @@
 var $slideContainer;
 var $slides;
 
+/*
+ * Lazy load images on slide change
+ */
 var onSlideChange = function(e, from, to) {
-    loadImages(to);
+  loadImages(to);
 }
 
+/*
+ * Lazy load images
+ */
 var loadImages = function(index) {
-    /*
-     * Lazy load images
-     */
-    var slides = [
-        $slides.eq(index),
-        $slides.eq(index + 1),
-        $slides.eq(index - 1),
-    ];
+  var slides = [
+    $slides.eq(index),
+    $slides.eq(index + 1),
+    $slides.eq(index - 1),
+  ];
 
-    for (var i = 0; i < slides.length; i++) {
-        loadImage(slides[i]);
-    };
+  for (var i = 0; i < slides.length; i++) {
+    loadImage(slides[i]);
+  };
 }
 
+/*
+ * Load an image
+ */
 var loadImage = function($slide) {
-    /*
-     * Load an image
-     */
-    var imageURL = $slide.data('background-image');
-    var $imageContainer = $slide.find('.img-container');
-    var $img = $imageContainer.find('img');
-    if (!$img.attr('src')) {
-      $img.attr('src', imageURL);
-    }
-    $imageContainer.imgLiquid();
-
+  var imageURL = $slide.data('background-image');
+  var $imageContainer = $slide.find('.img-container');
+  var $img = $imageContainer.find('img');
+  if (!$img.attr('src')) {
+    $img.attr('src', imageURL);
+  }
+  $imageContainer.imgLiquid();
 };
 
+/*
+ * Resize images
+ */
 var onWindowResize = function() {
-  loadImages(0);
+  var currentSlideIndex = $slides.index($.deck('getSlide'));
+  loadImages(currentSlideIndex);
 }
 
+/*
+ * Initialize the app
+ */
 $(document).ready(function() {
   $slides = $('.slide');
   $slideContainer = $('.deck-container')
