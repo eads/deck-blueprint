@@ -8,16 +8,17 @@
   {% endblock %}
 
   {% block library_css %}
-  <script src="//use.typekit.net/vuh7ozn.js"></script>
-  <script>try{Typekit.load();}catch(e){}</script>
   {{ CSS.push('lib/bootstrap/dist/css/bootstrap.css') }}
   {{ CSS.push('lib/deck.js/core/deck.core.css') }}
-  {{ CSS.push('lib/deck.js/themes/transition/fade.css') }}
+  {% if transition_style %}
+  {{ CSS.push('lib/deck.js/themes/transition/{0}.css'.format(transition_style)) }}
+  {% endif %}
   {{ CSS.push('styles/base.css') }}
-  {{ CSS.render('css/style.min.css') }}
   {% endblock library_css %}
 
   {% block css %}{% endblock %}
+
+  {{ CSS.render('css/style.min.css') }}
 
   {% block opengraph %}
   <meta property="og:url" content="http://{{ ROOT_URL }}/{% if PATH != 'index.html' %}{{ PATH }}{% endif %}" />
@@ -34,20 +35,75 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   {% endblock meta %}
 </head>
-<body {% block bodyattrs %}class="page-{{ PATH[:-5] }}"{% endblock bodyattrs %}>
+<body {% block bodyattrs %}class="page-{{ PATH[:-5] }}{% if use_nav %} has-nav{% endif %}"{% endblock bodyattrs %}>
+
+{% block nav %}
+{% if use_nav %}
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#{{ slides[0].id }}">{{ title }}</a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse nav-collapse">
+      <ul class="nav navbar-nav">
+        {% for slide in slides[1:] %}
+        <li class="{{ slide.id }}"><a href="#{{ slide.id }}">{{ slide.title|process_text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endif %}
+{% endblock nav %}
 
 {% block content %}
+<div class="deck-container hidden">
+  {% for slide in slides %}
+  <section class="slide{% if slide.class %} {{ slide.class }}{% endif %}" id="{{ slide.id }}" data-background-image="{{ slide.image }}">
+    <div class="img-container"
+        {% if slide.img_liquid_fill %}
+        data-imgLiquid-fill="{{ slide.img_liquid_fill }}"
+        {% endif %}
+        {% if slide.img_liquid_vertical_align %}
+        data-imgLiquid-verticalAlign="{{ slide.img_liquid_vertical_align }}"
+        {% endif %}
+        {% if slide.img_liquid_horizontal_align %}
+        data-imgLiquid-horizontalAlign="{{ slide.img_liquid_vertical_align }}"
+        {% endif %}
+    >
+      <img{% if loop.first %} src="{{ slide.image }}"{% endif %} />
+    </div>
+    <div class="content">
+      {% if slide.file %}
+      {{ render_file('_slides/{0}'.format(slide.file))|safe }}
+      {% else %}
+      {{ slide.content|safe }}
+      {% endif %}
+    </div>
+  </section>
+  {% endfor %}
+</div>
 {% endblock content %}
 
 {% block library_scripts %}
 {{ JS.push('lib/deck.js/modernizr.custom.js') }}
 {{ JS.push('lib/jquery/dist/jquery.js') }}
 {{ JS.push('lib/deck.js/core/deck.core.js') }}
-{{ JS.push('app/app.js') }}
-{{ JS.render('js/app.min.js') }}
+{{ JS.push('lib/imgLiquid/js/imgLiquid.js') }}
+{{ JS.push('lib/imagesloaded/imagesloaded.pkgd.js') }}
+{{ JS.push('app/base.js') }}
 {% endblock library_scripts %}
 
 {% block scripts %}{% endblock %}
+
+{{ JS.render('js/app.min.js') }}
 
 </body>
 </html>

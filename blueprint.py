@@ -1,24 +1,19 @@
 # -*- coding: utf-8 -*-
 import codecs
-import datetime
-import dateutil.parser
-import dateutil.tz
 import getpass
 import json
-import markdown as Markdown
 import os
-import re
 import requests
 
 from clint.textui import colored, puts
 from cssmin import cssmin
 from flask import g, Blueprint
-from jinja2 import evalcontextfilter, contextfunction, Template, Markup
+from jinja2 import Markup
 from slimit import minify
 from tarbell.hooks import register_hook
-from time import time
+from tarbell.utils import ensure_directory
 
-NAME = "Basic Bootstrap 3 template"
+NAME = "DeckJS Slideshow"
 
 ISSUES = [
     ("Edit index.html", "Create new content in `index.html` by replacing the `{% block content %} ... {% endblock %}'"),
@@ -28,16 +23,16 @@ ISSUES = [
 ]
 
 EXCLUDES = [
-    'node_modules',
+    #'node_modules',
     'app',
     'styles',
-    'lib/jquery/*',
-    'lib/headjs/*',
-    '*.md',
-    '*.json'
+    'lib',
+    #'*.md',
+    #'*.json'
 ]
 
 blueprint = Blueprint('base', __name__)
+
 
 class Includer(object):
     """
@@ -67,12 +62,14 @@ class Includer(object):
         if os.path.isfile(blueprint_path):
             return blueprint_path
 
-        return '\n'.join(output)
-
     def render(self, path):
-        # the g object only has current site attribute in the preview server
-        if not hasattr(g, 'current_site'):
-            with codecs.open(path, 'w', encoding='utf-8') as f:
+        config = g.current_site.app.config
+
+        # If we're in a build context, mash everything together
+        if config.get('BUILD_PATH'):
+            fullpath = os.path.join(config.get('BUILD_PATH'), path)
+            ensure_directory(fullpath)
+            with codecs.open(fullpath, 'w', encoding='utf-8') as f:
                 f.write(self._compress())
             response = self.tag_string.format(path)
         else:
@@ -123,6 +120,17 @@ class CSSIncluder(Includer):
         return '\n'.join(output)
 
 
+@blueprint.app_context_processor
+def context_processor():
+    """
+    Add helper functions to context for all projects.
+    """
+    return {
+        'JS': JavascriptIncluder(),
+        'CSS': CSSIncluder(),
+    }
+
+
 @register_hook('newproject')
 def create_repo(site, git):
     create = raw_input("Want to create a Github repo for this project [Y/n]? ")
@@ -146,149 +154,3 @@ def create_repo(site, git):
         resp = requests.post('https://api.github.com/repos/{0}/{1}/issues'.format(user, name), auth=(user, password), headers=headers, data=json.dumps(data))
 
 
-@blueprint.app_context_processor
-def context_processor():
-    """
-    Add helper functions to context for all projects.
-    """
-    return {
-        'JS': JavascriptIncluder(),
-        'CSS': CSSIncluder(),
-    }
-
-
-@blueprint.app_template_filter()
-def process_text(text):
-    try:
-        return Markup(text)
-    except TypeError:
-        return u''
-
-
-@blueprint.app_template_filter()
-def drop_cap(text):
-    """
-    Add drop-cap class to beginning of content.
-    """
-    if type(text).__name__ == 'Markup':
-        return text
-    if text:
-        content = '<span class="drop-cap">%s</span>%s' % (text[:1], text[1:])
-    else:
-        content = ''
-    return Markup(content)
-
-
-@blueprint.app_template_filter()
-def format_date(value, format='%b. %d, %Y', convert_tz=None):
-    """
-    Format a date.
-    """
-    if isinstance(value, float) or isinstance(value, int):
-        seconds = (value - 25569) * 86400.0
-        parsed = datetime.datetime.utcfromtimestamp(seconds)
-    else:
-        parsed = dateutil.parser.parse(value)
-    if convert_tz:
-        local_zone = dateutil.tz.gettz(convert_tz)
-        parsed = parsed.astimezone(tz=local_zone)
-
-    return parsed.strftime(format)
-
-@blueprint.app_template_filter()
-def strong_to_b(value):
-    """
-    Replaces enclosing <strong> and </strong>s with <p><b>s
-    """
-    value = re.sub(r'^<p><strong>(.+?)</strong></p>$', u'<p><b>\\1</b></p>', value)
-    return value
-
-
-@blueprint.app_template_filter()
-def strip_p(value):
-    """
-    Removes enclosing <p> and </p> tags from value.
-    """
-    value = re.sub(r'^<p>(.+?)</p>$', u'\\1', value)
-    return value
-
-
-@blueprint.app_template_filter()
-def wrap_p(value):
-    """
-    Adds enclosing <p> and </p> tags to value.
-    """
-    return '<p>%s</p>' % value
-
-
-@blueprint.app_template_filter()
-def replace_windows_linebreaks(value):
-    """
-    Replace all \r (the Windows/MS-style linebreak character) with
-    better-tasting, lower-fat unix-style \ns. Takes a string, returns
-    a string.
-    """
-    return re.sub(r'\r', '\n', value)
-
-
-@blueprint.app_template_filter('paragraphs')
-def get_paragraphs(value):
-    """
-    Take a block of text and return an array of paragraphs. Only works if
-    paragraphs are denoted by <p> tags and not double <br>.
-    Use `br_to_p` to convert text with double <br>s to <p> wrapped paragraphs.
-    """
-    value = re.sub(r'</p>\w*<p>', u'</p>\n\n<p>', value)
-    paras = re.split('\n{2,}', value)
-    return paras
-
-
-@blueprint.app_template_filter()
-def br_to_p(value):
-    """
-    Converts text where paragraphs are separated by two <br> tags to text
-    where the paragraphs are wrapped by <p> tags.
-    """
-    value = re.sub(r'<br\s*/*>\s*<br\s*/*>', u'\n\n', value)
-    paras = re.split('\n{2,}', value)
-    paras = [u'<p>%s</p>' % p.strip() for p in paras if p]
-    paras = u'\n\n'.join(paras)
-    return paras
-
-
-@blueprint.app_template_filter()
-def section_heads(value):
-    """
-    Search through a block of text and replace <p><b>text</b></p>
-    with <h4 class="section-head">text</h4
-    """
-    value = re.sub(r'<p>\w*<b>(.+?)</b>\w*</p>', u'<h4 class="section-head">\\1</h4>', value)
-    return value
-
-
-@blueprint.app_template_filter()
-@evalcontextfilter
-def linebreaks(eval_ctx, value):
-    """Converts newlines into <p> and <br />s."""
-    value = re.sub(r'\r\n|\r|\n', '\n', value)  # normalize newlines
-    paras = re.split('\n{2,}', value)
-    paras = [u'<p>%s</p>' % p.replace('\n', '<br />') for p in paras]
-    paras = u'\n\n'.join(paras)
-    return Markup(paras)
-
-
-@blueprint.app_template_filter()
-@evalcontextfilter
-def linebreaksbr(eval_ctx, value):
-    """Converts newlines into <p> and <br />s."""
-    value = re.sub(r'\r\n|\r|\n', '\n', value)  # normalize newlines
-    paras = re.split('\n{2,}', value)
-    paras = [u'%s' % p.replace('\n', '<br />') for p in paras]
-    paras = u'\n\n'.join(paras)
-    return Markup(paras)
-
-
-@blueprint.app_template_filter()
-def markdown(value):
-    """Run text through markdown process"""
-    return Markup(Markdown.markdown(value))
