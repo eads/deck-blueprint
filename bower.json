@@ -1,0 +1,24 @@
+{
+  "name": "deck.js Tarbell blueprint",
+  "version": "0.0.0",
+  "homepage": "https://github.com/eads/deck-blueprint",
+  "authors": [
+    "David Eads <davideads@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "deck.js": "~1.1.0",
+    "fontawesome": "~4.3.0",
+    "imgLiquid": "~0.9.944",
+    "jquery": "~2.1.4"
+  }
+}
