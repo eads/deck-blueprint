@@ -18,3 +18,33 @@ body.has-nav .content,
 body.has-nav .img-container {
   top: 51px;
 }
+
+.nav-buttons .nav-button {
+  font-size: 48px;
+  color: #fff;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  opacity: 0.5;
+  transition: opacity .5s ease-out;
+  -moz-transition: opacity .5s ease-out;
+  -webkit-transition: opacity .5s ease-out;
+  -o-transition: opacity .5s ease-out;
+}
+.nav-buttons .nav-button:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+.nav-buttons .nav-button.disabled,
+.nav-buttons .nav-button.disabled:hover {
+  opacity: 0;
+  cursor: default;
+}
+
+.nav-buttons #slide-previous {
+  left: 10px;
+}
+.nav-buttons #slide-next {
+  right: 20px;
+}

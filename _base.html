@@ -92,6 +92,13 @@
 </div>
 {% endblock content %}
 
+{% block navbuttons %}
+<div class="nav-buttons">
+  <span class="nav-button disabled" id="slide-previous"><i class="fa fa-chevron-circle-left"></i></span>
+  <span class="nav-button" id="slide-next"><i class="fa fa-chevron-circle-right"></i></span>
+</div>
+{% endblock %}
+
 {% block library_scripts %}
 {{ JS.push('lib/deck.js/modernizr.custom.js') }}
 {{ JS.push('lib/jquery/dist/jquery.js') }}

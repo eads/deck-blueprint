@@ -1,11 +1,25 @@
 var $slideContainer;
 var $slides;
+var $nextButton;
+var $previousButton;
+var currentSlideIndex = 0;
 
 /*
  * Lazy load images on slide change
  */
 var onSlideChange = function(e, from, to) {
+  currentSlideIndex = to;
   loadImages(to);
+
+  $previousButton.removeClass('disabled');
+  $nextButton.removeClass('disabled');
+
+  if (to === 0) {
+    $previousButton.addClass('disabled');
+  }
+  if (to === ($slides.length - 1)) {
+    $nextButton.addClass('disabled');
+  }
 }
 
 /*
@@ -39,9 +53,22 @@ var loadImage = function($slide) {
 /*
  * Resize images
  */
-var onWindowResize = function() {
-  var currentSlideIndex = $slides.index($.deck('getSlide'));
+var onWindowResize = function(e) {
   loadImages(currentSlideIndex);
+}
+
+/*
+ * Next slide
+ */
+var onNextButtonClick = function(e) {
+  $.deck('next');
+}
+
+/*
+ * Previous slide
+ */
+var onPreviousButtonClick = function(e) {
+  $.deck('prev');
 }
 
 /*
@@ -49,10 +76,14 @@ var onWindowResize = function() {
  */
 $(document).ready(function() {
   $slides = $('.slide');
-  $slideContainer = $('.deck-container')
+  $slideContainer = $('.deck-container');
+  $previousButton = $('#slide-previous');
+  $nextButton = $('#slide-next');
 
   $(this).bind('deck.change', onSlideChange);
   $(window).bind('resize', onWindowResize)
+  $previousButton.on('click', onPreviousButtonClick);
+  $nextButton.on('click', onNextButtonClick);
 
   $.deck($slides);
 
