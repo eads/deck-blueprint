@@ -23,12 +23,10 @@ ISSUES = [
 ]
 
 EXCLUDES = [
-    #'node_modules',
     'app',
     'styles',
     'lib',
-    #'*.md',
-    #'*.json'
+    'bower.json',
 ]
 
 blueprint = Blueprint('base', __name__)
