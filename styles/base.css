@@ -42,9 +42,9 @@ body.has-nav .img-container {
   cursor: default;
 }
 
-.nav-buttons #slide-previous {
+.nav-buttons .slide-previous {
   left: 10px;
 }
-.nav-buttons #slide-next {
+.nav-buttons .slide-next {
   right: 20px;
 }

@@ -94,8 +94,8 @@
 
 {% block navbuttons %}
 <div class="nav-buttons">
-  <span class="nav-button disabled" id="slide-previous"><i class="fa fa-chevron-circle-left"></i></span>
-  <span class="nav-button" id="slide-next"><i class="fa fa-chevron-circle-right"></i></span>
+  <span class="nav-button slide-previous disabled"><i class="fa fa-chevron-circle-left"></i></span>
+  <span class="nav-button slide-next"><i class="fa fa-chevron-circle-right"></i></span>
 </div>
 {% endblock %}
 
@@ -104,12 +104,22 @@
 {{ JS.push('lib/jquery/dist/jquery.js') }}
 {{ JS.push('lib/deck.js/core/deck.core.js') }}
 {{ JS.push('lib/imgLiquid/js/imgLiquid.js') }}
-{{ JS.push('app/base.js') }}
+{{ JS.push('app/slideshow.js') }}
 {% endblock library_scripts %}
 
 {% block scripts %}{% endblock %}
 
 {{ JS.render('js/app.min.js') }}
+
+{% block init_app %}
+<script>
+  var options = {
+    'use_hash_navigation': {{ use_hash_navigation }},
+  }
+  console.log('hi');
+  var slideshow = TarbellSlideShow(options);
+</script>
+{% endblock %}
 
 </body>
 </html>

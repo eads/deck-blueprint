@@ -77,8 +77,8 @@ var onPreviousButtonClick = function(e) {
 $(document).ready(function() {
   $slides = $('.slide');
   $slideContainer = $('.deck-container');
-  $previousButton = $('#slide-previous');
-  $nextButton = $('#slide-next');
+  $previousButton = $('.slide-previous');
+  $nextButton = $('.slide-next');
 
   $(this).bind('deck.change', onSlideChange);
   $(window).bind('resize', onWindowResize)
