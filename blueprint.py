@@ -15,18 +15,12 @@ from tarbell.utils import ensure_directory
 
 NAME = "deck.js slideshow"
 
-ISSUES = [
-    ("Edit index.html", "Create new content in `index.html` by replacing the `{% block content %} ... {% endblock %}'"),
-    ("Add Google analytics ID to spreadsheet", "Add your tracking code."),
-    ("Device testing", "Chrome, Firefox, IE 8+, Safari, iPhone, iPad, Android"),
-    ("Publish the project to production", "Are you ready to ship?"),
-]
-
 EXCLUDES = [
     'app',
     'styles',
     'lib',
     'bower.json',
+    '*.md',
 ]
 
 blueprint = Blueprint('base', __name__)
@@ -145,10 +139,3 @@ def create_repo(site, git):
     clone_url = resp.json().get("clone_url")
     puts(git.remote.add("origin", "git@github.com:{0}/{1}.git".format(user,name)))
     puts(git.push("origin", "master"))
-
-    for title, description in ISSUES:
-        puts("Creating {0}".format(colored.yellow(title)))
-        data = {'title': title, 'body': description}
-        resp = requests.post('https://api.github.com/repos/{0}/{1}/issues'.format(user, name), auth=(user, password), headers=headers, data=json.dumps(data))
-
-
