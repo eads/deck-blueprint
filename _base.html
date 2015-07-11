@@ -34,6 +34,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   {% endblock meta %}
+
+  {% block head_scripts %}
+  {{ JS.push('app/analytics.js') }}
+  {{ JS.render('js/app-header.min.js') }}
+  <script>
+  TarbellAnalytics.init({
+    'trackerID': {% if google_analytics_id %}'{{ google_analytics_id }}'{% else %}null{% endif %}
+  });
+  </script>
+  {% endblock %}
 </head>
 <body {% block bodyattrs %}class="page-{{ PATH[:-5] }}{% if use_nav %} has-nav{% endif %}"{% endblock bodyattrs %}>
 
@@ -109,15 +119,16 @@
 
 {% block scripts %}{% endblock %}
 
-{{ JS.render('js/app.min.js') }}
+{{ JS.render('js/app-footer.min.js') }}
 
 {% block init_app %}
 <script>
-  var options = {
-    'use_hash_navigation': {{ use_hash_navigation }},
-  }
-  console.log('hi');
-  var slideshow = TarbellSlideShow(options);
+var slideshow;
+$(document).ready(function() {
+  TarbellSlideshow.init({
+    'useHashNavigation': {{ use_hash_navigation }}
+  });
+});
 </script>
 {% endblock %}
 
