@@ -120,6 +120,7 @@ def context_processor():
     return {
         'JS': JavascriptIncluder(),
         'CSS': CSSIncluder(),
+        'enumerate': enumerate,
     }
 
 

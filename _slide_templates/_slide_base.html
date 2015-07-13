@@ -1,0 +1,33 @@
+{% block background %}
+<div class="img-container"
+    {% if slide.img_liquid_fill %}
+    data-imgLiquid-fill="{{ slide.img_liquid_fill }}"
+    {% endif %}
+    {% if slide.img_liquid_vertical_align %}
+    data-imgLiquid-verticalAlign="{{ slide.img_liquid_vertical_align }}"
+    {% endif %}
+    {% if slide.img_liquid_horizontal_align %}
+    data-imgLiquid-horizontalAlign="{{ slide.img_liquid_vertical_align }}"
+    {% endif %}
+>
+  <img{% if loop_index == 0 %} src="{{ slide.image }}"{% endif %} />
+</div>
+{% endblock background %}
+
+{% block slide %}
+<div class="content">
+  {% if slide.file %}
+  {{ render_file('_slides/{0}'.format(slide.file))|safe }}
+  {% else %}
+  {{ slide.content|safe }}
+  {% endif %}
+</div>
+{% endblock slide %}
+
+{% block navbuttons %}
+<div class="nav-buttons">
+  <span class="nav-button slide-previous disabled"><i class="fa fa-chevron-circle-left"></i></span>
+  <span class="nav-button slide-next"><i class="fa fa-chevron-circle-right"></i></span>
+</div>
+{% endblock navbuttons %}
+

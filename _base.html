@@ -76,37 +76,11 @@ TarbellAnalytics.init({
 
 {% block content %}
 <div class="deck-container hidden">
-  {% for slide in slides %}
+  {% for loop_index, slide in enumerate(slides) %}
   <section class="slide{% if slide.class %} {{ slide.class }}{% endif %}" id="{{ slide.id }}" data-background-image="{{ slide.image }}">
-    <div class="img-container"
-        {% if slide.img_liquid_fill %}
-        data-imgLiquid-fill="{{ slide.img_liquid_fill }}"
-        {% endif %}
-        {% if slide.img_liquid_vertical_align %}
-        data-imgLiquid-verticalAlign="{{ slide.img_liquid_vertical_align }}"
-        {% endif %}
-        {% if slide.img_liquid_horizontal_align %}
-        data-imgLiquid-horizontalAlign="{{ slide.img_liquid_vertical_align }}"
-        {% endif %}
-    >
-      <img{% if loop.first %} src="{{ slide.image }}"{% endif %} />
-    </div>
-    <div class="content">
-      {% if slide.file %}
-      {{ render_file('_slides/{0}'.format(slide.file))|safe }}
-      {% else %}
-      {{ slide.content|safe }}
-      {% endif %}
-    </div>
+    {% include '_slide_templates/{0}.html'.format(slide.template) %}
   </section>
   {% endfor %}
-</div>
-{% endblock content %}
-
-{% block navbuttons %}
-<div class="nav-buttons">
-  <span class="nav-button slide-previous disabled"><i class="fa fa-chevron-circle-left"></i></span>
-  <span class="nav-button slide-next"><i class="fa fa-chevron-circle-right"></i></span>
 </div>
 {% endblock %}
 

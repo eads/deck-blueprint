@@ -1,0 +1,14 @@
+{% extends '_slide_templates/_slide_base.html' %}
+
+{% block slide %}
+<div class="content">
+  {% if slide.file %}
+  {{ render_file('_slides/{0}'.format(slide.file))|safe }}
+  {% else %}
+  {{ slide.content|safe }}
+  {% endif %}
+  <p><span class="btn btn-default nav-button slide-next">Go <i class="fa fa-chevron-right"></i></span></p>
+</div>
+{% endblock slide %}
+
+{% block navbuttons %}{% endblock navbuttons %}
