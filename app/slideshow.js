@@ -100,7 +100,7 @@ var TarbellSlideshow = (function ($) {
     $previousButton.on('click', onPreviousButtonClick);
     $nextButton.on('click', onNextButtonClick);
 
-    loadImage($slides.eq(0));
+    loadImages(0);
     $slideContainer.removeClass('hidden');
   }
 
