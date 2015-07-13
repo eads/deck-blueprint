@@ -35,18 +35,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   {% endblock meta %}
-
-  {% block head_scripts %}
-  {{ JS.push('app/analytics.js') }}
-  {{ JS.render('js/app-header.min.js') }}
-  <script>
-  TarbellAnalytics.init({
-    'trackerID': {% if google_analytics_id %}'{{ google_analytics_id }}'{% else %}null{% endif %}
-  });
-  </script>
-  {% endblock %}
 </head>
 <body {% block bodyattrs %}class="page-{{ PATH[:-5] }}{% if use_nav %} has-nav{% endif %}"{% endblock bodyattrs %}>
+
+{% block head_scripts %}
+{{ JS.push('app/analytics.js') }}
+{{ JS.render('js/app-header.min.js') }}
+<script>
+TarbellAnalytics.init({
+  'trackerID': {% if google_analytics_id %}'{{ google_analytics_id }}'{% else %}null{% endif %}
+});
+</script>
+{% endblock %}
 
 {% block nav %}
 {% if use_nav %}
