@@ -26,8 +26,12 @@
 
 {% block navbuttons %}
 <div class="nav-buttons">
-  <span class="nav-button slide-previous disabled"><i class="fa fa-chevron-circle-left"></i></span>
-  <span class="nav-button slide-next"><i class="fa fa-chevron-circle-right"></i></span>
+  {% if loop_index != 0 %}
+  <a href="#{{ slides[loop_index - 1].id }}" class="nav-button slide-previous"><i class="fa fa-chevron-circle-left"></i></a>
+  {% endif %}
+  {% if loop_index + 1 < slides|length %}
+  <a href="#{{ slides[loop_index + 1].id }}" class="nav-button slide-next"><i class="fa fa-chevron-circle-right"></i></a>
+  {% endif %}
 </div>
 {% endblock navbuttons %}
 
