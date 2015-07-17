@@ -10,7 +10,7 @@
   {% block library_css %}
   {{ CSS.push('lib/bootstrap/dist/css/bootstrap.css') }}
   {{ CSS.push('lib/deck.js/core/deck.core.css') }}
-  {% if transition_style %}
+  {% if transition_style and transition_style != 'none' %}
   {{ CSS.push('lib/deck.js/themes/transition/{0}.css'.format(transition_style)) }}
   {% endif %}
   {{ CSS.push('lib/fontawesome/css/font-awesome.css') }}
