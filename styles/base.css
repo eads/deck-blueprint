@@ -1,3 +1,26 @@
+/* Slim default bootstrap nav */
+.nav-buttons .slide-previous {
+  left: 10px;
+}
+.nav-buttons .slide-next {
+  right: 20px;
+}
+.navbar {
+  min-height: 34px;
+}
+.navbar-brand {
+  height: 34px;
+}
+.navbar-nav > li > a, .navbar-brand {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.navbar-toggle {
+  margin-top: 4px;
+  margin-bottom: 0;
+  border: none;
+}
+
 .slide, .img-container, .content {
   position: absolute;
   top: 0;
@@ -16,7 +39,7 @@
 
 body.has-nav .content,
 body.has-nav .img-container {
-  top: 51px;
+  top: 35px;
 }
 
 .nav-buttons .nav-button {
