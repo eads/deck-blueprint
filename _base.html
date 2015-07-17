@@ -43,7 +43,9 @@
 {{ JS.render('js/app-header.min.js') }}
 <script>
 TarbellAnalytics.init({
-  'trackerID': {% if google_analytics_id %}'{{ google_analytics_id }}'{% else %}null{% endif %}
+  'GATrackerID': {% if google_analytics_id %}'{{ google_analytics_id }}'{% else %}null{% endif %},
+  'ChartbeatUID': {% if chartbeat_uid %}'{{ chartbeat_uid }}'{% else %}null{% endif %},
+  'ChartbeatDomain': {% if chartbeat_domain %}'{{ chartbeat_domain }}'{% else %}null{% endif %}
 });
 </script>
 {% endblock %}

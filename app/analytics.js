@@ -5,8 +5,8 @@
  */
 
 var TarbellAnalytics = (function () {
-  // Allow module to be called without sending anything
-  var enabled = false;
+  // Allow GA methods to be called without sending anything
+  var GAEnabled = false;
 
   // Global time tracking variables
   var slideStartTime =  new Date();
@@ -26,20 +26,45 @@ var TarbellAnalytics = (function () {
     ga('send', 'pageview');
   }
 
+  var setupChartbeat = function(uid, domain) {
+    window._sf_async_config = window._sf_async_config || {};
+    /** CONFIGURATION START **/
+    _sf_async_config.uid = uid;
+    _sf_async_config.domain = domain;
+    /** CONFIGURATION END **/
+    (function(){
+      function loadChartbeat() {
+        window._sf_endpt=(new Date()).getTime();
+        var e = document.createElement("script");
+        e.setAttribute("language", "javascript");
+        e.setAttribute("type", "text/javascript");
+        e.setAttribute("src",
+          (("https:" == document.location.protocol) ?
+           "https://a248.e.akamai.net/chartbeat.download.akamai.com/102508/" :
+           "http://static.chartbeat.com/") +
+          "js/chartbeat.js");
+        document.body.appendChild(e);
+      }
+      var oldonload = window.onload;
+      window.onload = (typeof window.onload != "function") ?
+        loadChartbeat : function() { oldonload(); loadChartbeat(); };
+    })();
+  }
+
   /*
    * Event tracking.
    */
   var trackEvent = function(category, name, label, value) {
-    if (!enabled) return;
+    if (!GAEnabled) return;
 
     var eventData = {
       'hitType': 'event',
-      'eventCategory': category,
-      'eventAction': name
+      'eventCategory': String(category),
+      'eventAction': String(name)
     }
 
     if (label) {
-      eventData['eventLabel'] = label;
+      eventData['eventLabel'] = String(label);
     }
 
     if (value) {
@@ -61,9 +86,12 @@ var TarbellAnalytics = (function () {
    */
   var init = function(options) {
     var options = options || {};
-    if (options.trackerID) {
-      setupGoogle(options.trackerID);
-      enabled = true;
+    if (options.GATrackerID) {
+      setupGoogle(options.GATrackerID);
+      GAEnabled = true;
+    }
+    if (options.ChartbeatUID && options.ChartbeatDomain) {
+      setupChartbeat(options.ChartbeatUID, options.ChartbeatDomain);
     }
   }
 
