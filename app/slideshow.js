@@ -8,6 +8,8 @@ var TarbellSlideshow = (function ($) {
   var $slides;
   var $nextButton;
   var $previousButton;
+
+  var settings = {};
   var currentSlideIndex = 0;
 
   /*
@@ -68,7 +70,10 @@ var TarbellSlideshow = (function ($) {
    * Next slide
    */
   var onNextButtonClick = function(e) {
-    $.deck('next');
+    if (!settings.useHashNavigation) {
+      e.preventDefault();
+      $.deck('next');
+    }
     TarbellAnalytics.trackEvent('navigation', 'click', 'next');
   }
 
@@ -76,7 +81,10 @@ var TarbellSlideshow = (function ($) {
    * Previous slide
    */
   var onPreviousButtonClick = function(e) {
-    $.deck('prev');
+    if (!settings.useHashNavigation) {
+      e.preventDefault();
+      $.deck('prev');
+    }
     TarbellAnalytics.trackEvent('navigation', 'click', 'previous');
   }
 
@@ -84,7 +92,10 @@ var TarbellSlideshow = (function ($) {
    * Initialize the app
    */
   var init = function(options) {
-    if (!options.use_hash_navigation) {
+
+    settings = options;
+
+    if (!settings.use_hash_navigation) {
       Modernizr.history = null;
     }
 
