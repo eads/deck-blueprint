@@ -1,3 +1,7 @@
+body {
+  color: #f9f9f9;
+}
+
 /* Slim default bootstrap nav */
 .nav-buttons .slide-previous {
   left: 10px;
@@ -28,13 +32,26 @@
   right: 0;
   bottom: 0;
 }
+.slide {
+  background-image: radial-gradient(center center, ellipse cover, #555555, #000000);
+  background-image: -o-radial-gradient(center center, ellipse cover, #555555, #000000);
+  background-image: -ms-radial-gradient(center center, ellipse cover, #555555, #000000);
+  background-image: -moz-radial-gradient(center center, ellipse cover, #555555, #000000);
+  background-image: -webkit-radial-gradient(center center, ellipse cover, #555555, #000000);
+}
 .content {
   z-index: 10;
   overflow: scroll;
   padding: 20px;
+  height: 100%;
 }
-.slide {
-  background-color: #000;
+.content-inner {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  max-width: 80%;
+  margin: 0 auto;
 }
 
 body.has-nav .content,
@@ -52,3 +69,14 @@ body.has-nav .img-container {
   opacity: 0.5;
 }
 
+a {
+  color: #f0ad4e;
+}
+
+a:hover {
+  color: #ec971f;
+}
+
+.go-button {
+  margin-top: 30px;
+}

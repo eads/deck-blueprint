@@ -1,7 +1,7 @@
 {% block background %}
 <div class="img-container"
-    {% if slide.img_liquid_fill %}
-    data-imgLiquid-fill="{{ slide.img_liquid_fill }}"
+    {% if slide.img_liquid_fill == 0 %}
+    data-imgLiquid-fill="false"
     {% endif %}
     {% if slide.img_liquid_vertical_align %}
     data-imgLiquid-verticalAlign="{{ slide.img_liquid_vertical_align }}"
@@ -16,11 +16,13 @@
 
 {% block slide %}
 <div class="content">
-  {% if slide.file %}
-  {{ render_file('_slides/{0}'.format(slide.file))|safe }}
-  {% else %}
-  {{ slide.content|safe }}
-  {% endif %}
+  <div class="content-inner">
+    {% if slide.file %}
+    {{ render_file(slide.file)|markdown|safe }}
+    {% elif slide.content %}
+    {{ slide.content|markdown|safe }}
+    {% endif %}
+  </div>
 </div>
 {% endblock slide %}
 
