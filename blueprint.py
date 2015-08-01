@@ -20,6 +20,7 @@ EXCLUDES = [
     'styles',
     'lib',
     'bower.json',
+    'requirements.txt',
     '*.md',
 ]
 
