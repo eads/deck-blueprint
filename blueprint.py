@@ -10,6 +10,7 @@ from cssmin import cssmin
 from flask import g, Blueprint
 from jinja2 import Markup
 from slimit import minify
+from smartypants import smartypants
 from tarbell.hooks import register_hook
 from tarbell.utils import ensure_directory
 
@@ -141,3 +142,8 @@ def create_repo(site, git):
     clone_url = resp.json().get("clone_url")
     puts(git.remote.add("origin", "git@github.com:{0}/{1}.git".format(user,name)))
     puts(git.push("origin", "master"))
+
+@blueprint.app_template_filter('smartypants')
+def smartypants_filter(text):
+    return smartypants(text)
+
