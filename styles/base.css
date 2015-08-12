@@ -1,5 +1,11 @@
 body {
   color: #f9f9f9;
+  background-color: #000;
+  background-image: radial-gradient(center center, ellipse cover, #555555, #000000);
+  background-image: -o-radial-gradient(center center, ellipse cover, #555555, #000000);
+  background-image: -ms-radial-gradient(center center, ellipse cover, #555555, #000000);
+  background-image: -moz-radial-gradient(center center, ellipse cover, #555555, #000000);
+  background-image: -webkit-radial-gradient(center center, ellipse cover, #555555, #000000);
 }
 
 /* Slim default bootstrap nav */
@@ -31,13 +37,6 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-}
-.slide {
-  background-image: radial-gradient(center center, ellipse cover, #555555, #000000);
-  background-image: -o-radial-gradient(center center, ellipse cover, #555555, #000000);
-  background-image: -ms-radial-gradient(center center, ellipse cover, #555555, #000000);
-  background-image: -moz-radial-gradient(center center, ellipse cover, #555555, #000000);
-  background-image: -webkit-radial-gradient(center center, ellipse cover, #555555, #000000);
 }
 .content {
   z-index: 10;
