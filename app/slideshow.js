@@ -95,7 +95,8 @@ var TarbellSlideshow = (function ($) {
 
     settings = options;
 
-    if (!settings.use_hash_navigation) {
+    if (!settings.useHashNavigation) {
+      window.location.hash = '';
       Modernizr.history = null;
     }
 
