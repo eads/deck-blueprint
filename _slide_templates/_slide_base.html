@@ -17,14 +17,33 @@
 {% block slide %}
 <div class="content">
   <div class="content-inner">
+    {% if slide.headline %}
+    <h1 class="headline">{{ slide.headline|smartypants|safe }}</h1>
+    {% endif %}
+
     {% if slide.file %}
-    {{ render_file(slide.file)|markdown|safe }}
-    {% elif slide.content %}
-    {{ slide.content|markdown|safe }}
+    {{ render_file(slide.file)|smartypants|markdown|safe }}
+    {% endif %}
+
+    {% if slide.content %}
+    {{ slide.content|smartypants|markdown|safe }}
     {% endif %}
   </div>
 </div>
 {% endblock slide %}
+
+{% block credits %}
+{% if slide.image %}
+<div class="credits">
+  Photo: 
+  {% if slide.photo_link %}
+  <a href="{{ slide.photo_link }}" target="_blank">{{ slide.photo_credit }}</a>
+  {% else %}
+  {{ slide.photo_credit }}
+  {% endif %}
+</div>
+{% endif %}
+{% endblock credits %}
 
 {% block navbuttons %}
 <div class="nav-buttons">

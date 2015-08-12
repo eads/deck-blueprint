@@ -3,12 +3,19 @@
 {% block slide %}
 <div class="content">
   <div class="content-inner">
-    {% if slide.file %}
-    {{ render_file(slide.file)|markdown|safe }}
-    {% elif slide.content %}
-    {{ slide.content|markdown|safe }}
+    {% if slide.headline %}
+    <h1 class="headline">{{ slide.headline|smartypants|safe }}</h1>
     {% endif %}
-    <div class="go-button"><a href="#{{ slides[loop_index + 1].id }}" class="btn btn-warning nav-button slide-next">Go <i class="fa fa-chevron-right"></i></a></div>
+
+    {% if slide.file %}
+    {{ render_file(slide.file)|markdown|smartypants|safe }}
+    {% endif %}
+
+    {% if slide.content %}
+    {{ slide.content|markdown|smartypants|safe }}
+    {% endif %}
+
+    <div class="go-button"><a href="#{{ slides[loop_index + 1].id }}" class="btn btn-warning nav-button slide-next">{{ start_msg }} <i class="fa fa-chevron-right"></i></a></div>
   </div>
 </div>
 {% endblock slide %}
