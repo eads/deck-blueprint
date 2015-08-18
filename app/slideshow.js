@@ -50,13 +50,17 @@ var TarbellSlideshow = (function ($) {
    * Load an image
    */
   var loadImage = function($slide) {
-    var imageURL = $slide.data('background-image');
     var $imageContainer = $slide.find('.img-container');
-    var $img = $imageContainer.find('img');
-    if (!$img.attr('src')) {
-      $img.attr('src', imageURL);
+    var imageURL = $imageContainer.data('background-image');
+
+    if (imageURL) {
+      var $img = $imageContainer.find('img');
+      $img.attr('src', '');
+      setTimeout(function() {
+        $img.attr('src', imageURL);
+        $imageContainer.imgLiquid();
+      }, 0);
     }
-    $imageContainer.imgLiquid();
   };
 
   /*
@@ -70,10 +74,8 @@ var TarbellSlideshow = (function ($) {
    * Next slide
    */
   var onNextButtonClick = function(e) {
-    if (!settings.useHashNavigation) {
-      e.preventDefault();
-      $.deck('next');
-    }
+    e.preventDefault();
+    $.deck('next');
     TarbellAnalytics.trackEvent('navigation', 'click', 'next');
   }
 
@@ -81,10 +83,8 @@ var TarbellSlideshow = (function ($) {
    * Previous slide
    */
   var onPreviousButtonClick = function(e) {
-    if (!settings.useHashNavigation) {
-      e.preventDefault();
-      $.deck('prev');
-    }
+    e.preventDefault();
+    $.deck('prev');
     TarbellAnalytics.trackEvent('navigation', 'click', 'previous');
   }
 

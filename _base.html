@@ -80,7 +80,7 @@ TarbellAnalytics.init({
 {% block content %}
 <div class="deck-container hidden">
   {% for loop_index, slide in enumerate(slides) %}
-  <section class="slide slide-{{ slide.template }}{% if slide.class %} {{ slide.class }}{% endif %}" id="{{ slide.id }}" data-background-image="{{ slide.image }}">
+  <section class="slide slide-{{ slide.template }}{% if slide.class %} {{ slide.class }}{% endif %}" id="{{ slide.id }}">
     {% include '_slide_templates/{0}.html'.format(slide.template) %}
   </section>
   {% endfor %}

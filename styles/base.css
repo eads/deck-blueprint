@@ -66,6 +66,8 @@ body.has-nav .img-container {
   transform: translateY(-50%);
   z-index: 10;
   opacity: 0.5;
+  background: none;
+  border: none;
 }
 
 a {

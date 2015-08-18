@@ -1,17 +1,19 @@
 {% block background %}
+{% if slide.media_url %}
 <div class="img-container"
-    {% if slide.img_liquid_fill == 0 %}
+    {% if slide.media_fill == 0 %}
     data-imgLiquid-fill="false"
     {% endif %}
-    {% if slide.img_liquid_vertical_align %}
-    data-imgLiquid-verticalAlign="{{ slide.img_liquid_vertical_align }}"
+    {% if slide.media_vertical_align %}
+    data-imgLiquid-verticalAlign="{{ slide.media_vertical_align }}"
     {% endif %}
-    {% if slide.img_liquid_horizontal_align %}
-    data-imgLiquid-horizontalAlign="{{ slide.img_liquid_vertical_align }}"
+    {% if slide.media_horizontal_align %}
+    data-imgLiquid-horizontalAlign="{{ slide.media_vertical_align }}"
     {% endif %}
->
-  <img{% if loop_index == 0 %} src="{{ slide.image }}"{% endif %} />
+    data-background-image="{{ slide.media_url }}">
+  <img{% if loop_index == 0 %} src="{{ slide.media_url }}"{% endif %} />
 </div>
+{% endif %}
 {% endblock background %}
 
 {% block slide %}
@@ -33,13 +35,12 @@
 {% endblock slide %}
 
 {% block credits %}
-{% if slide.image %}
+{% if slide.media_url %}
 <div class="credits">
-  Photo: 
-  {% if slide.photo_link %}
-  <a href="{{ slide.photo_link }}" target="_blank">{{ slide.photo_credit }}</a>
+  {% if slide.media_link %}
+  <a href="{{ slide.media_link }}" target="_blank">{{ slide.media_credit }}</a>
   {% else %}
-  {{ slide.photo_credit }}
+  {{ slide.media_credit }}
   {% endif %}
 </div>
 {% endif %}
@@ -48,10 +49,10 @@
 {% block navbuttons %}
 <div class="nav-buttons">
   {% if loop_index != 0 %}
-  <a href="#{{ slides[loop_index - 1].id }}" class="nav-button slide-previous"><i class="fa fa-chevron-circle-left"></i></a>
+  <button class="nav-button slide-previous"><i class="fa fa-chevron-circle-left"></i></button>
   {% endif %}
   {% if loop_index + 1 < slides|length %}
-  <a href="#{{ slides[loop_index + 1].id }}" class="nav-button slide-next"><i class="fa fa-chevron-circle-right"></i></a>
+  <button class="nav-button slide-next"><i class="fa fa-chevron-circle-right"></i></button>
   {% endif %}
 </div>
 {% endblock navbuttons %}

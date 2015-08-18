@@ -15,7 +15,9 @@
     {{ slide.content|markdown|smartypants|safe }}
     {% endif %}
 
-    <div class="go-button"><a href="#{{ slides[loop_index + 1].id }}" class="btn btn-warning nav-button slide-next">{{ start_msg }} <i class="fa fa-chevron-right"></i></a></div>
+    <div class="go-button">
+      <button class="btn btn-warning nav-button slide-next">{{ start_msg }} <i class="fa fa-chevron-right"></i></button>
+    </div>
   </div>
 </div>
 {% endblock slide %}
