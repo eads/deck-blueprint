@@ -42,24 +42,32 @@ var TarbellSlideshow = (function ($) {
     ];
 
     for (var i = 0; i < slides.length; i++) {
-      loadImage(slides[i]);
+      loadImage(i, slides[i]);
     };
   }
 
   /*
    * Load an image
    */
-  var loadImage = function($slide) {
+  var loadImage = function(load_index, $slide) {
     var $imageContainer = $slide.find('.img-container');
     var imageURL = $imageContainer.data('background-image');
 
     if (imageURL) {
       var $img = $imageContainer.find('img');
-      $img.attr('src', '');
-      setTimeout(function() {
+      if (!$img.attr('src')) {
         $img.attr('src', imageURL);
         $imageContainer.imgLiquid();
-      }, 0);
+      }
+      else if (load_index === 0) {
+        // Reload images (from cache) when on current slide -- resets animated GIFs
+        $imageContainer.css('background-image', '');
+        $img.attr('src', '');
+        setTimeout(function() {
+          $img.attr('src', imageURL);
+          $imageContainer.imgLiquid();
+        });
+      }
     }
   };
 
