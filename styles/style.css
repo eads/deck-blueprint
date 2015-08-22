@@ -115,3 +115,29 @@ body.has-nav .img-container {
   font-size: 15px;
   font-weight: 700;
 }
+
+/*
+ * Image overlay(s)
+ */
+.slide.dark-overlay {
+  background-color: #000;
+}
+.slide.dark-overlay .content {
+  color: #fff;
+  text-shadow: 0 0 6px rgba(0,0,0,0.6);
+}
+.slide.dark-overlay .img-container {
+  opacity: 0.7;
+}
+
+/*
+ * Narrow lists
+ */
+.slide ul li, .slide ol li {
+  text-align: left;
+}
+.slide ul, .slide ol {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
