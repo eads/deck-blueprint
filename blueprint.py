@@ -128,6 +128,9 @@ def context_processor():
 
 @register_hook('newproject')
 def create_repo(site, git):
+    """
+    Create repo when making new project
+    """
     create = raw_input("Want to create a Github repo for this project [Y/n]? ")
     if create and not create.lower() == "y":
         return puts("Not creating Github repo...")
@@ -143,7 +146,14 @@ def create_repo(site, git):
     puts(git.remote.add("origin", "git@github.com:{0}/{1}.git".format(user,name)))
     puts(git.push("origin", "master"))
 
+
 @blueprint.app_template_filter('smartypants')
 def smartypants_filter(text):
-    return smartypants(text)
+    """
+    Smarty pants
+    """
+    if text:
+        return smartypants(text)
+    else:
+        return ''
 
