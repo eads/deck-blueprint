@@ -144,7 +144,6 @@ def copy_files(site, git):
     shutil.copy(slide_src_path, slide_dir)
 
     bowerrc_src_path = '{0}/_blueprint/.bowerrc'
-    os.mkdir(lib)
     shutil.copy(bowerrc_src_path, site.path)
 
 
