@@ -132,11 +132,20 @@ def copy_files(site, git):
     """
     Copy the files
     """
-    puts('\nCopying styles/style.css\n')
+    puts('\nCopying files from blueprint\n')
     style_dir = '{0}/styles'.format(site.path)
     os.mkdir(style_dir)
     style_src_path = '{0}/_blueprint/styles/style.css'.format(site.path)
     shutil.copy(style_src_path, style_dir)
+
+    slide_dir = '{0}/_slides'.format(site.path)
+    os.mkdir(slide_dir)
+    slide_src_path = '{0}/_blueprint/_slides/example.md'.format(site.path)
+    shutil.copy(slide_src_path, slide_dir)
+
+    bowerrc_src_path = '{0}/_blueprint/.bowerrc'
+    os.mkdir(lib)
+    shutil.copy(bowerrc_src_path, site.path)
 
 
 @register_hook('newproject')
