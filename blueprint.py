@@ -143,7 +143,7 @@ def copy_files(site, git):
     slide_src_path = '{0}/_blueprint/_slides/example.md'.format(site.path)
     shutil.copy(slide_src_path, slide_dir)
 
-    bowerrc_src_path = '{0}/_blueprint/.bowerrc'
+    bowerrc_src_path = '{0}/_blueprint/.bowerrc'.format(site.path)
     shutil.copy(bowerrc_src_path, site.path)
 
 
