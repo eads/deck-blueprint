@@ -66,7 +66,7 @@ var TarbellSlideshow = (function ($) {
         setTimeout(function() {
           $img.attr('src', imageURL);
           $imageContainer.imgLiquid();
-        });
+        }, 0);
       }
     }
   };
