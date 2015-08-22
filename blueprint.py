@@ -4,6 +4,7 @@ import getpass
 import json
 import os
 import requests
+import shutil
 
 from clint.textui import colored, puts
 from cssmin import cssmin
@@ -124,6 +125,18 @@ def context_processor():
         'CSS': CSSIncluder(),
         'enumerate': enumerate,
     }
+
+
+@register_hook('newproject')
+def copy_files(site, git):
+    """
+    Copy the files
+    """
+    puts('\nCopying styles/style.css\n')
+    style_dir = '{0}/styles'.format(site.path)
+    os.mkdir(style_dir)
+    style_src_path = '{0}/_blueprint/styles/style.css'.format(site.path)
+    shutil.copy(style_src_path, style_dir)
 
 
 @register_hook('newproject')
