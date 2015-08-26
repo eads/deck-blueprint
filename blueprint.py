@@ -137,14 +137,20 @@ def copy_files(site, git):
     os.mkdir(style_dir)
     style_src_path = '{0}/_blueprint/styles/style.css'.format(site.path)
     shutil.copy(style_src_path, style_dir)
+    git.add('styles/style.css')
+    git.commit(m='Add style.css')
 
     slide_dir = '{0}/_slides'.format(site.path)
     os.mkdir(slide_dir)
     slide_src_path = '{0}/_blueprint/_slides/example.md'.format(site.path)
     shutil.copy(slide_src_path, slide_dir)
+    git.add('_slides/example.md')
+    git.commit(m='Add example slide content')
 
     bowerrc_src_path = '{0}/_blueprint/.bowerrc'.format(site.path)
     shutil.copy(bowerrc_src_path, site.path)
+    git.add('.bowerrc')
+    git.commit(m='Add Bower configuration')
 
 
 @register_hook('newproject')
